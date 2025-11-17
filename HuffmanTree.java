@@ -2,8 +2,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import java.awt.*;
+import java.awt.event.*;
 
-public class HuffmanTree{
+public class HuffmanTree extends JFrame{
 
     //make a method that reads the text file and returns an array list of the treenodes
     public static ArrayList<TreeNode> readFile(String filename) throws IOException{
@@ -160,4 +168,68 @@ public class HuffmanTree{
 
     }
 
+    //PART 4 GUI FRAME
+
+    private JTextArea input;
+    private JTextArea output;
+    private JButton encode;
+    private JButton decode;
+    private JPanel buttonPanel;
+
+    public HuffmanTree(TreeNode root){
+
+        setTitle("Huffman Tree Interface For Encoding And Decoding");
+        setSize(500,500);
+        setLayout(new BorderLayout(15,15));
+
+        //INPUT
+        input = new JTextArea(10, 40);
+        input.setBorder(BorderFactory.createTitledBorder("Input Message OR Bitcode"));
+        input.setBackground(new Color(169,221,214));
+                
+        //OUTPUT
+        output = new JTextArea(10,40 );
+        output.setBorder(BorderFactory.createTitledBorder("Output"));
+        output.setEditable(false);
+        output.setBackground(new Color(169,221,214));
+
+        //BUTTON
+        buttonPanel = new JPanel(new FlowLayout());
+
+        encode = new JButton("Encode");
+        encode.setBackground(new Color(145,173,194));
+        decode = new JButton("Decode");
+        decode.setBackground(new Color(145,173,194));
+
+        buttonPanel.add(encode);
+        buttonPanel.add(decode);
+
+        add(new JScrollPane(input), BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.CENTER);
+        add(new JScrollPane(output), BorderLayout.SOUTH);
+
+        encode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                String text = input.getText().toUpperCase();
+                output.setText(Encode(root, text));
+            }
+        });
+
+        decode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                String text = input.getText();
+                output.setText(Decode(root, text));
+            }
+        });
+
+        setVisible(true);
+
+    }
+     public static void main(String[] args) throws Exception {
+
+        ArrayList<TreeNode> list = readFile("LetterCountAscending.txt");
+        TreeNode root = BuildTree(list);
+
+        new HuffmanTree(root);
+    }
 }
