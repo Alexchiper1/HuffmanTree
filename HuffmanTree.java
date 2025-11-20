@@ -93,6 +93,23 @@ public class HuffmanTree extends JFrame{
         return list.get(0);
 
     }
+        public static String Encode(TreeNode root, String string){
+
+        //make a stringbuilder to store the encoded string
+        StringBuilder encodedCode = new StringBuilder();
+
+        //loop through the characters of the string we wanna encode
+        for(int i = 0; i < string.length(); i++){
+            //get cureetn character we to to find the code for
+            char current = string.charAt(i);
+            
+            //call codeNum method to ghet the path for the har and add to the final string
+            encodedCode.append(codeNum(root, current, ""));
+
+        }
+        return encodedCode.toString();
+    }
+    
     private static String codeNum(TreeNode node, char current, String code){
         //check if no more characters 
         if (node == null) {
@@ -115,23 +132,8 @@ public class HuffmanTree extends JFrame{
         return codeNum(node.getLeft(), current, code + "0");
         
     }
-    public static String Encode(TreeNode root, String string){
 
-        //make a stringbuilder to store the encoded string
-        StringBuilder encodedCode = new StringBuilder();
-
-        //loop through the characters of the string we wanna encode
-        for(int i = 0; i < string.length(); i++){
-            //get cureetn character we to to find the code for
-            char current = string.charAt(i);
-            
-            //call codeNum method to ghet the path for the har and add to the final string
-            encodedCode.append(codeNum(root, current, ""));
-
-        }
-        return encodedCode.toString();
-    }
-
+    
     public static String Decode(TreeNode root, String code){
 
         //store the final decoded characters
